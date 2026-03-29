@@ -30,7 +30,7 @@ def health_advice(systolic, diastolic, bmi):
         return "✅ You are healthy!"
 
 # UI
-st.title("🏥 Healthcare AI Assistant")
+st.title("🏥 Healthcare Monitoring AI Agent")
 
 # Input
 pid = st.text_input("Patient ID")
