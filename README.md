@@ -1,4 +1,4 @@
-# Healthcare AI Agent
+# Healthcare Monitoring AI Agent
 
 Basic healthcare assistant using Streamlit.
 
