@@ -60,41 +60,53 @@ if st.button("Save Data"):
 import streamlit as st
 import json
 
-
-def simple_chatbot(q):  
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+def simple_chatbot(q):
     q = q.lower()
 
     if "cause" in q and "bp" in q:
         return "High BP can be caused by stress, high salt intake, lack of exercise, obesity, and genetics."
-    elif "bp" in q:
-        return "Blood pressure (BP) is the force of blood against artery walls."
-    elif "overweight" in q:
-        return "To manage weight, eat fruits, vegetables, whole grains and avoid junk food."
-    elif "diet" in q:
-        return "Healthy diet includes fruits, vegetables, proteins, and low sugar."
+    elif "control" in q and "bp" in q:
+        return "To control BP, reduce salt, exercise daily, and avoid stress."
+    elif "diet" in q and "overweight" in q:
+        return "Eat fruits, vegetables, whole grains, and avoid fried foods."
     elif "exercise" in q:
-        return "Do at least 30 minutes of exercise daily like walking or yoga."
+        return "Do 30 minutes of exercise daily like walking or yoga."
+    elif "bp" in q:
+        return "Blood pressure is the force of blood against artery walls."
     else:
-        return "Please consult a doctor for proper medical advice."
+        return "Please consult a doctor for proper advice."
 
 query = st.text_input("Ask a health question")
 
-if st.button("Ask AI",key="chatbot"):
-    response = simple_chatbot(query)  
-    st.write(response)
+if st.button("Ask AI", key="chatbot"):
+    response = simple_chatbot(query)
+    st.session_state.chat_history.append(("You", query))
+    st.session_state.chat_history.append(("AI", response))
+    st.write("### 💬 Chat History")
 
-
+for role, msg in st.session_state.chat_history:
+    st.write(f"**{role}:** {msg}")
 
 
 # 💊 Medication Reminder
 st.header("💊 Medication Reminder")
-st.info("Enter your medicine details to set a reminder")
 
-med_name = st.text_input("💊 Medicine Name (e.g., Paracetamol)")
+med_name = st.text_input("Medicine Name")
+dosage = st.text_input("Dosage (e.g., 1 tablet)")
+frequency = st.selectbox("Frequency", ["Once daily", "Twice daily"])
 med_time = st.time_input("Select Time")
 
-if st.button("Set Reminder", key="reminder"):
-    st.success(f"⏰ {med_name} reminder set at {med_time}")
-    st.write("📌 Please remember to take your medicine on time.")
+if "reminders" not in st.session_state:
+    st.session_state.reminders = []
 
-    
+if st.button("Set Reminder", key="reminder"):
+    reminder = f"{med_name} - {dosage} - {frequency} at {med_time}"
+    st.session_state.reminders.append(reminder)
+    st.success("Reminder saved!")
+
+st.write("### 📋 Your Reminders")
+
+for r in st.session_state.reminders:
+    st.write(r)
