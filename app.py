@@ -88,10 +88,13 @@ if st.button("Ask AI",key="chatbot"):
 
 # 💊 Medication Reminder
 st.header("💊 Medication Reminder")
+st.info("Enter your medicine details to set a reminder")
 
-med_name = st.text_input("Enter Medicine Name")
+med_name = st.text_input("💊 Medicine Name (e.g., Paracetamol)")
 med_time = st.time_input("Select Time")
 
-if st.button("Set Reminder"):
-    st.success(f"⏰ Reminder set for {med_name} at {med_time}")
+if st.button("Set Reminder", key="reminder"):
+    st.success(f"⏰ {med_name} reminder set at {med_time}")
+    st.write("📌 Please remember to take your medicine on time.")
+
     
