@@ -77,4 +77,15 @@ query = st.text_input("Ask a health question")
 if st.button("Ask AI"):
     response = simple_chatbot(query)
     st.write(response)
+
+
+
+# 💊 Medication Reminder
+st.header("💊 Medication Reminder")
+
+med_name = st.text_input("Enter Medicine Name")
+med_time = st.time_input("Select Time")
+
+if st.button("Set Reminder"):
+    st.success(f"⏰ Reminder set for {med_name} at {med_time}")
     
