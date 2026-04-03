@@ -110,3 +110,6 @@ st.write("### 📋 Your Reminders")
 
 for r in st.session_state.reminders:
     st.write(r)
+
+st.info("⚠ This app provides basic guidance. Consult a doctor for medical advice.")
+
