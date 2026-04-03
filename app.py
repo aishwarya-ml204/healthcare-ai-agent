@@ -56,7 +56,7 @@ if st.button("Save Data"):
     st.success("✅ Data Saved!")
     st.write("Advice:", advice)
 
-import streamlit as st
+
 import streamlit as st
 import json
 
@@ -79,29 +79,10 @@ def simple_chatbot(q):
 
 query = st.text_input("Ask a health question")
 
-if st.button("Ask AI"):
+if st.button("Ask AI",key="chatbot"):
     response = simple_chatbot(query)  
     st.write(response)
 
-def simple_chatbot(q):
-    q = q.lower()
-
-    if "cause" in q and "bp" in q:
-        return "High BP can be caused by stress, high salt intake, lack of exercise, obesity, and genetics."
-    elif "bp" in q:
-        return "Blood pressure (BP) is the force of blood against artery walls."
-    elif "overweight" in q:
-        return "To manage weight, eat fruits, vegetables, whole grains and avoid junk food."
-    elif "diet" in q:
-        return "Healthy diet includes fruits, vegetables, proteins, and low sugar."
-    elif "exercise" in q:
-        return "Do at least 30 minutes of exercise daily like walking or yoga."
-    else:
-        return "Please consult a doctor for proper medical advice."
-
-if st.button("Ask AI"):
-    response = simple_chatbot(query)
-    st.write(response)
 
 
 
