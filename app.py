@@ -55,3 +55,26 @@ if st.button("Save Data"):
 
     st.success("✅ Data Saved!")
     st.write("Advice:", advice)
+
+import streamlit as st   # ✅ ADD THIS
+
+def simple_chatbot(q):
+    q = q.lower()
+
+    if "bp" in q:
+        return "Blood pressure (BP) is the force of blood against artery walls."
+    elif "overweight" in q:
+        return "To manage weight, eat fruits, vegetables, whole grains and avoid junk food."
+    elif "diet" in q:
+        return "Healthy diet includes fruits, vegetables, proteins, and low sugar."
+    elif "exercise" in q:
+        return "Do at least 30 minutes of exercise daily like walking or yoga."
+    else:
+        return "Please consult a doctor for proper medical advice."
+
+query = st.text_input("Ask a health question")
+
+if st.button("Ask AI"):
+    response = simple_chatbot(query)
+    st.write(response)
+    
