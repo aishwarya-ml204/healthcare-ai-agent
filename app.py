@@ -30,6 +30,30 @@ def health_advice(systolic, diastolic, bmi):
     else:
         return "✅ You are healthy!"
 
+
+def simple_chatbot(q):
+    q = q.lower()
+
+    if "cause" in q and "bp" in q:
+        return "High BP can be caused by stress, high salt intake, obesity, and lack of exercise."
+
+    elif "control" in q and "bp" in q:
+        return "To control BP, reduce salt, exercise daily, and avoid stress."
+
+    elif "diet" in q and "overweight" in q:
+        return "Eat fruits, vegetables, whole grains, and avoid fried foods."
+
+    elif "exercise" in q:
+        return "Do at least 30 minutes of exercise daily like walking or yoga."
+
+    elif "bmi" in q:
+        return "BMI is a measure of body fat based on height and weight."
+
+    else:
+        return "Please consult a doctor for proper advice.
+
+  
+
 # UI
 st.title("🏥 Healthcare Monitoring AI Agent")
 
@@ -39,8 +63,11 @@ systolic = st.number_input("Systolic BP", min_value=0)
 diastolic = st.number_input("Diastolic BP", min_value=0)
 bmi = st.number_input("BMI", min_value=0.0)
 
+#initialize history
 if "history" not in st.session_state:
     st.session_state.history = []
+
+
 # Save
 if st.button("Save Data"):
     data = load_data()
@@ -63,42 +90,24 @@ if st.button("Save Data"):
 
     st.success("✅ Data Saved!")
     st.write("Advice:", advice)
-
-    st.write("### 📋 Patient History")
-
-    for h in st.session_state.history:
-        st.write(h)
-
-    st.header("📊 Health Data Visualization")
-
-    if st.session_state.history:
-        df = pd.DataFrame(st.session_state.history)
-        st.bar_chart(df)
-
     if systolic > 140:
         st.error("⚠ High Blood Pressure Detected!")
+    
+if st.button("Generate Report"):
+    st.subheader("📋 Health Report")
+    st.write("Patient ID:", pid)
+    st.write("BP:", systolic, "/", diastolic)
+    st.write("BMI:", bmi)
+    st.write("Advice:", advice)
 
+st.subheader("💬 Ask AI Health Assistant")
 
-import streamlit as st
-import json
+query = st.text_input("Ask a health question")
+
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
-def simple_chatbot(q):
-    q = q.lower()
 
-    if "cause" in q and "bp" in q:
-        return "High BP can be caused by stress, high salt intake, lack of exercise, obesity, and genetics."
-    elif "control" in q and "bp" in q:
-        return "To control BP, reduce salt, exercise daily, and avoid stress."
-    elif "diet" in q and "overweight" in q:
-        return "Eat fruits, vegetables, whole grains, and avoid fried foods."
-    elif "exercise" in q:
-        return "Do 30 minutes of exercise daily like walking or yoga."
-    elif "bp" in q:
-        return "Blood pressure is the force of blood against artery walls."
-    else:
-        return "Please consult a doctor for proper advice."
 
 query = st.text_input("Ask a health question")
 
@@ -128,12 +137,55 @@ if st.button("Set Reminder", key="reminder"):
     st.session_state.reminders.append(reminder)
     st.success("Reminder saved!")
 
-st.write("### 📋 Your Reminders")
 
+st.write("### 📋 Your Reminders")
 for r in st.session_state.reminders:
     st.write(r)
+    
+ #medication interaction   
+st.header("⚠ Check Medicine Interaction")
 
+med1 = st.text_input("Enter Medicine 1")
+med2 = st.text_input("Enter Medicine 2")
+
+if st.button("Check Interaction"):
+    if med1.lower() == "paracetamol" and med2.lower() == "alcohol":
+        st.warning("⚠ Avoid taking paracetamol with alcohol")
+    else:
+        st.success("✅ No major interaction detected")
+#health goal
+st.header("🎯 Health Goal")
+
+target_weight = st.number_input("Enter Target Weight")
+
+if bmi > 25:
+    st.write("⚠ You are overweight. Try to reach:", target_weight)
+elif bmi < 18.5:
+    st.write("⚠ You are underweight. Try to reach:", target_weight)
+else:
+    st.write("✅ You are healthy")
+# -------------------------------
+# History
+# -------------------------------
+st.write("### 📋 Patient History")
+for h in st.session_state.history:
+    st.write(h)
+    
+#graph
+st.header("📊 Health Data Visualization")
+
+if st.session_state.history:
+    df = pd.DataFrame(st.session_state.history)
+    st.bar_chart(df)
+
+
+# Disclaimer
+st.markdown("---")
 st.info("⚠ This app provides basic guidance. Consult a doctor for medical advice.")
+
+
+
+
 
 
 
