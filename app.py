@@ -67,13 +67,10 @@ bmi = st.number_input("BMI", min_value=0.0)
 if "history" not in st.session_state:
     st.session_state.history = []
 
-
+advice = health_advice(systolic, diastolic, bmi)
 # Save
 if st.button("Save Data"):
     data = load_data()
-
-    advice = health_advice(systolic, diastolic, bmi)
-
     data[pid] = {
         "Systolic": systolic,
         "Diastolic": diastolic,
