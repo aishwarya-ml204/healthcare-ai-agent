@@ -50,7 +50,7 @@ def simple_chatbot(q):
         return "BMI is a measure of body fat based on height and weight."
 
     else:
-        return "Please consult a doctor for proper advice.
+        return "Please consult a doctor for proper advice."
 
   
 
