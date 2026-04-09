@@ -39,6 +39,8 @@ systolic = st.number_input("Systolic BP", min_value=0)
 diastolic = st.number_input("Diastolic BP", min_value=0)
 bmi = st.number_input("BMI", min_value=0.0)
 
+if "history" not in st.session_state:
+    st.session_state.history = []
 # Save
 if st.button("Save Data"):
     data = load_data()
