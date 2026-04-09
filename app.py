@@ -102,7 +102,7 @@ if st.button("Generate Report"):
 
 st.subheader("💬 Ask AI Health Assistant")
 
-query = st.text_input("Ask a health question")
+query = st.text_input("Ask a health question", key="chat_input")
 
 
 if "chat_history" not in st.session_state:
@@ -124,7 +124,7 @@ for role, msg in st.session_state.chat_history:
 # 💊 Medication Reminder
 st.header("💊 Medication Reminder")
 
-med_name = st.text_input("Medicine Name")
+med_name = st.text_input("Medicine Name",key="med_name")
 dosage = st.text_input("Dosage (e.g., 1 tablet)")
 frequency = st.selectbox("Frequency", ["Once daily", "Twice daily"])
 med_time = st.time_input("Select Time")
@@ -145,8 +145,8 @@ for r in st.session_state.reminders:
  #medication interaction   
 st.header("⚠ Check Medicine Interaction")
 
-med1 = st.text_input("Enter Medicine 1")
-med2 = st.text_input("Enter Medicine 2")
+med1 = st.text_input("Enter Medicine 1", key="med1")
+med2 = st.text_input("Enter Medicine 2",key="med2")
 
 if st.button("Check Interaction"):
     if med1.lower() == "paracetamol" and med2.lower() == "alcohol":
