@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import pandas as pd
 
 file_name = "health_data.json"
 
@@ -52,9 +53,28 @@ if st.button("Save Data"):
     }
 
     save_data(data)
+    st.session_state.history.append({
+        "Systolic": systolic,
+        "Diastolic": diastolic,
+        "BMI": bmi
+    })
 
     st.success("✅ Data Saved!")
     st.write("Advice:", advice)
+
+    st.write("### 📋 Patient History")
+
+    for h in st.session_state.history:
+        st.write(h)
+
+    st.header("📊 Health Data Visualization")
+
+    if st.session_state.history:
+        df = pd.DataFrame(st.session_state.history)
+        st.bar_chart(df)
+
+    if systolic > 140:
+        st.error("⚠ High Blood Pressure Detected!")
 
 
 import streamlit as st
@@ -112,4 +132,6 @@ for r in st.session_state.reminders:
     st.write(r)
 
 st.info("⚠ This app provides basic guidance. Consult a doctor for medical advice.")
+
+
 
