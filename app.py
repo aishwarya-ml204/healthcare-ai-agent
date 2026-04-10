@@ -106,8 +106,6 @@ if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 
-query = st.text_input("Ask a health question")
-
 if st.button("Ask AI", key="chatbot"):
     response = simple_chatbot(query)
     st.session_state.chat_history.append(("You", query))
