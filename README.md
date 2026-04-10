@@ -24,7 +24,50 @@ streamlit run app.py
 
 https://healthcare-ai-agent-mvgyyrsoqfgxz3muhxxcfc.streamlit.app/
 
-## ⚠ Disclaimer
+--
 
-This application provides basic health guidance and is not a substitute for professional medical advice.
+In Week 3, the project was enhanced into a **multi-functional healthcare monitoring assistant** with additional features and improved functionality.
+
+### 🔹 New Features Added
+
+- 📊 **Health Data Visualization**
+  - Displayed BP trends using charts
+
+- 📋 **Health Report Generator**
+  - Generates patient report with BP, BMI, and advice
+
+- 🤖 **Improved AI Chatbot**
+  - Handles multiple health queries like diet, BP causes, exercise
+
+- ⚠ **Medication Interaction Checker**
+  - Detects unsafe combinations (e.g., paracetamol + alcohol)
+
+- 🎯 **Health Goal Tracking**
+  - Allows users to set and monitor target weight
+
+- 📁 **Data Handling Improvements**
+  - Structured patient data storage and display
+
+---
+
+### 🎯 Outcome
+
+The system now provides an **end-to-end healthcare monitoring workflow**, including:
+- Data input
+- Health analysis
+- Advice generation
+- Visualization
+- Patient interaction
+
+---
+
+### 📌 Learning Highlights
+
+- Implemented data visualization using pandas  
+- Improved rule-based chatbot logic  
+- Added user-friendly healthcare features  
+- Handled real-time user inputs and session data  
+
+
+
 
