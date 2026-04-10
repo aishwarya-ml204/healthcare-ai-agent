@@ -34,25 +34,80 @@ def health_advice(systolic, diastolic, bmi):
 def simple_chatbot(q):
     q = q.lower()
 
+    # -------------------------------
+    # BP QUESTIONS
+    # -------------------------------
     if "cause" in q and "bp" in q:
-        return "High BP can be caused by stress, high salt intake, obesity, and lack of exercise."
+        return "High BP is caused by stress, high salt intake, obesity, lack of exercise, and genetics."
 
     elif "control" in q and "bp" in q:
-        return "To control BP, reduce salt, exercise daily, and avoid stress."
+        return "To control BP, reduce salt, exercise daily, maintain weight, and avoid stress."
 
-    elif "diet" in q and "overweight" in q:
-        return "Eat fruits, vegetables, whole grains, and avoid fried foods."
+    elif "symptom" in q and "bp" in q:
+        return "High BP symptoms include headache, dizziness, chest pain, and shortness of breath."
 
-    elif "exercise" in q:
-        return "Do at least 30 minutes of exercise daily like walking or yoga."
+    elif "what is bp" in q or ("bp" in q and "what" in q):
+        return "Blood pressure (BP) is the force of blood against artery walls."
 
+    # -------------------------------
+    # DIET QUESTIONS
+    # -------------------------------
+    elif "diet" in q or "food" in q or "eat" in q:
+        if "weight loss" in q or "lose weight" in q:
+            return "For weight loss, eat fruits, vegetables, whole grains, and avoid sugar and fried foods."
+
+        elif "overweight" in q:
+            return "If overweight, eat low-fat foods, vegetables, fruits, and avoid junk food."
+
+        elif "healthy diet" in q:
+            return "A healthy diet includes fruits, vegetables, proteins, whole grains, and low sugar."
+
+        else:
+            return "Eat balanced food like fruits, vegetables, whole grains, and drink plenty of water."
+
+    # -------------------------------
+    # EXERCISE QUESTIONS
+    # -------------------------------
+    elif "exercise" in q or "workout" in q:
+        if "weight loss" in q:
+            return "For weight loss, do cardio exercises like running, walking, and cycling."
+
+        elif "daily" in q:
+            return "Do at least 30 minutes of exercise daily like walking, yoga, or jogging."
+
+        else:
+            return "Regular exercise keeps your body fit and reduces disease risk."
+
+    # -------------------------------
+    # BMI QUESTIONS
+    # -------------------------------
     elif "bmi" in q:
-        return "BMI is a measure of body fat based on height and weight."
+        if "normal" in q:
+            return "Normal BMI range is 18.5 to 24.9."
 
+        elif "what" in q or "meaning" in q:
+            return "BMI (Body Mass Index) measures body fat based on height and weight."
+
+        else:
+            return "BMI helps determine whether you are underweight, normal, or overweight."
+
+    # -------------------------------
+    # GENERAL HEALTH
+    # -------------------------------
+    elif "healthy" in q or "stay healthy" in q:
+        return "To stay healthy, eat balanced diet, exercise regularly, sleep well, and drink water."
+
+    elif "tips" in q:
+        return "Health tips: eat nutritious food, exercise daily, avoid stress, and sleep 7-8 hours."
+
+    elif "daily routine" in q:
+        return "Maintain a routine with healthy food, exercise, proper sleep, and hydration."
+
+    # -------------------------------
+    # DEFAULT
+    # -------------------------------
     else:
-        return "Please consult a doctor for proper advice."
-
-  
+        return "Please consult a doctor for proper medical advice."
 
 # UI
 st.title("🏥 Healthcare Monitoring AI Agent")
