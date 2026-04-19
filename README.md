@@ -83,7 +83,7 @@ New features added:
 
 - ## 📸 Output Screenshot
 
-![App Screenshot](output.png)
+![App Screenshot](ai.png)
 
 
 
