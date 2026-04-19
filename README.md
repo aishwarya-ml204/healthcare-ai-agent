@@ -81,6 +81,10 @@ New features added:
 - Medication reminder system
 - Goal tracking feature
 
+- ## 📸 Output Screenshot
+
+![App Screenshot](output.png)
+
 
 
 
