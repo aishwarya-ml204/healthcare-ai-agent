@@ -66,7 +66,20 @@ The system now provides an **end-to-end healthcare monitoring workflow**, includ
 - Implemented data visualization using pandas  
 - Improved rule-based chatbot logic  
 - Added user-friendly healthcare features  
-- Handled real-time user inputs and session data  
+- Handled real-time user inputs and session data
+
+ ## 📅 Week 4 Update
+
+In Week 4, we upgraded our project into a Streamlit-based web application.
+
+New features added:
+- Interactive UI using Streamlit
+- Health data visualization (graphs)
+- Health report generation
+- CSV export functionality
+- Chatbot for health queries
+- Medication reminder system
+- Goal tracking feature
 
 
 
