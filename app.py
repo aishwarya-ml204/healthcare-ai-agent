@@ -17,7 +17,50 @@ def health_advice(systolic, diastolic, bmi):
     else:
         return "✅ You are healthy!"
 
-# ---------- Load Data ----------
+# ---------- Health Risk ----------
+def health_risk(s, d, bmi):
+    if s > 140 or d > 90:
+        return "🔴 High Risk"
+    elif bmi > 30:
+        return "🟠 Moderate Risk"
+    else:
+        return "🟢 Low Risk"
+
+# ---------- Chatbot ----------
+def ai_chatbot(query):
+    q = query.lower()
+
+    if "low bp" in q:
+        return """For Low BP:
+- Increase salt intake slightly
+- Drink more water
+- Eat small frequent meals
+- Include coffee, bananas, nuts"""
+
+    elif "high bp" in q:
+        return """For High BP:
+- Reduce salt intake
+- Exercise regularly
+- Eat leafy vegetables & fruits
+- Avoid stress and junk food"""
+
+    elif "diet" in q:
+        return """Healthy Diet:
+- Fruits & vegetables
+- Whole grains
+- Protein foods
+- Avoid junk food"""
+
+    elif "exercise" in q:
+        return "Do at least 30 minutes of exercise daily."
+
+    elif "diabetes" in q:
+        return "Avoid sugar, eat balanced meals, and exercise regularly."
+
+    else:
+        return "Consult a doctor for proper medical advice."
+
+# ---------- Load/Save ----------
 def load_data():
     try:
         with open(file_name, "r") as f:
@@ -25,7 +68,6 @@ def load_data():
     except:
         return {}
 
-# ---------- Save Data ----------
 def save_data(data):
     with open(file_name, "w") as f:
         json.dump(data, f, indent=4)
@@ -33,8 +75,9 @@ def save_data(data):
 # ---------- UI ----------
 st.set_page_config(page_title="Healthcare AI", layout="centered")
 st.title("🏥 Healthcare Monitoring AI Agent")
+st.markdown("### 💙 Your Smart Health Assistant")
 
-menu = ["🏠 Home", "➕ Add Patient", "📄 View Patient", "💬 Chatbot", "💊 Reminder", "🎯 Goals"]
+menu = ["🏠 Home", "➕ Add Patient", "📄 View Patient", "💬 Chatbot", "💊 Reminder", "💡 Health Tips"]
 choice = st.sidebar.selectbox("Menu", menu)
 
 # ---------- HOME ----------
@@ -63,66 +106,83 @@ elif choice == "➕ Add Patient":
         }
 
         save_data(data)
+
         st.success("Data Saved!")
         st.write("Advice:", advice)
+        st.write("Risk Level:", health_risk(systolic, diastolic, bmi))
 
 # ---------- VIEW PATIENT ----------
 elif choice == "📄 View Patient":
     st.subheader("Patient Details")
 
     pid = st.text_input("Enter Patient ID")
+
+    if "patient" not in st.session_state:
+        st.session_state.patient = None
+
     data = load_data()
 
     if st.button("Search"):
         if pid in data:
-            st.json(data[pid])
-
-            # Graph
-            st.subheader("Health Graph")
-            st.bar_chart({
-                "Systolic": [data[pid]["Systolic"]],
-                "Diastolic": [data[pid]["Diastolic"]],
-                "BMI": [data[pid]["BMI"]]
-            })
-
-            # Report
-            if st.button("Generate Report"):
-                report = f"""
-Patient Report:
-BP: {data[pid]["Systolic"]}/{data[pid]["Diastolic"]}
-BMI: {data[pid]["BMI"]}
-Advice: {data[pid]["Advice"]}
-"""
-                st.text(report)
-
-            # CSV Download
-            if st.button("Download CSV"):
-                df = pd.DataFrame(data).T
-                df.to_csv("health_data.csv")
-                st.success("CSV file created")
-
+            st.session_state.patient = data[pid]
         else:
             st.error("Patient not found")
 
+    if st.session_state.patient:
+        patient = st.session_state.patient
+
+        st.json(patient)
+
+        # Graph
+        st.subheader("Health Graph")
+        st.bar_chart({
+            "Systolic": [patient["Systolic"]],
+            "Diastolic": [patient["Diastolic"]],
+            "BMI": [patient["BMI"]]
+        })
+
+        # Report
+        if st.button("Generate Report"):
+            report = f"""
+🏥 Patient Report
+
+BP: {patient["Systolic"]}/{patient["Diastolic"]}
+BMI: {patient["BMI"]}
+Advice: {patient["Advice"]}
+"""
+            st.text(report)
+
+        # CSV Download
+        df = pd.DataFrame(data).T
+        csv = df.to_csv(index=True).encode('utf-8')
+
+        st.download_button(
+            label="Download CSV",
+            data=csv,
+            file_name="health_data.csv",
+            mime="text/csv"
+        )
+
 # ---------- CHATBOT ----------
 elif choice == "💬 Chatbot":
-    st.subheader("Health Chatbot")
+    st.subheader("AI Health Chatbot")
 
-    question = st.text_input("Ask your question")
+    if "history" not in st.session_state:
+        st.session_state.history = []
 
-    if st.button("Ask"):
-        q = question.lower()
+    query = st.text_input("Ask a question")
 
-        if "bp" in q:
-            st.write("BP means Blood Pressure. Normal is 120/80.")
-        elif "diet" in q:
-            st.write("Eat fruits, vegetables, and avoid junk food.")
-        elif "weight" in q:
-            st.write("Exercise daily and maintain a healthy diet.")
-        elif "exercise" in q:
-            st.write("Do at least 30 minutes of exercise daily.")
-        else:
-            st.write("Consult a doctor for accurate advice.")
+    if st.button("Ask AI"):
+        response = ai_chatbot(query)
+
+        st.session_state.history.append(("You", query))
+        st.session_state.history.append(("Bot", response))
+
+    for role, msg in st.session_state.history:
+        st.write(f"**{role}:** {msg}")
+
+    if st.button("Clear Chat"):
+        st.session_state.history = []
 
 # ---------- REMINDER ----------
 elif choice == "💊 Reminder":
@@ -134,21 +194,12 @@ elif choice == "💊 Reminder":
     if st.button("Set Reminder"):
         st.success(f"Reminder set for {med} at {time}")
 
-# ---------- GOALS ----------
-elif choice == "🎯 Goals":
-    st.subheader("Health Goal Setting")
+# ---------- HEALTH TIPS ----------
+elif choice == "💡 Health Tips":
+    st.subheader("Daily Health Tips")
 
-    goal = st.text_input("Enter your goal")
-
-    if st.button("Save Goal"):
-        st.success("Goal saved successfully!")
-    
-  
-
-
-
-
-
-
-
+    st.write("✔ Drink 2–3 liters of water")
+    st.write("✔ Exercise daily")
+    st.write("✔ Eat balanced diet")
+    st.write("✔ Sleep 7–8 hours")
 
