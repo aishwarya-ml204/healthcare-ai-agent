@@ -1,4 +1,11 @@
-# Healthcare Monitoring AI Agent
+# 🏥 Healthcare Monitoring AI Agent
+
+AI-powered Healthcare Monitoring System with chatbot, visualization, report generation, and health analysis.
+
+---
+
+## 📌 Project Overview
+This project helps users monitor health parameters like BP and BMI, provides health advice, chatbot interaction, and more.
 
 ## 🚀 Features
 
@@ -84,6 +91,23 @@ New features added:
 - ## 📸 Output Screenshot
 
 ![App Screenshot](ai.png)
+
+## 📅 Week 5 Update
+
+In Week 5, we enhanced the Healthcare Monitoring AI Agent by improving system intelligence and user experience.
+
+New features added:
+- Improved chatbot with condition-based responses
+- Chat history using session state
+- Health risk analysis feature
+- Fixed report generation system
+- CSV download functionality
+- Health tips section
+- UI enhancements
+
+- ## 📸 Week 5 Output
+
+![Week 5 Screenshot](week5_output.png)
 
 
 
