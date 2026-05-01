@@ -34,21 +34,18 @@ def ai_chatbot(query):
         return """For Low BP:
 - Increase salt intake slightly
 - Drink more water
-- Eat small frequent meals
-- Include coffee, bananas, nuts"""
+- Eat small frequent meals"""
 
     elif "high bp" in q:
         return """For High BP:
 - Reduce salt intake
 - Exercise regularly
-- Eat leafy vegetables & fruits
-- Avoid stress and junk food"""
+- Eat healthy food"""
 
     elif "diet" in q:
         return """Healthy Diet:
 - Fruits & vegetables
 - Whole grains
-- Protein foods
 - Avoid junk food"""
 
     elif "exercise" in q:
@@ -77,13 +74,23 @@ st.set_page_config(page_title="Healthcare AI", layout="centered")
 st.title("🏥 Healthcare Monitoring AI Agent")
 st.markdown("### 💙 Your Smart Health Assistant")
 
-menu = ["🏠 Home", "➕ Add Patient", "📄 View Patient", "💬 Chatbot", "💊 Reminder", "💡 Health Tips"]
+menu = [
+    "🏠 Home",
+    "➕ Add Patient",
+    "📄 View Patient",
+    "💬 Chatbot",
+    "💊 Reminder",
+    "🎯 Goals",
+    "💡 Health Tips",
+    "👨‍👩‍👧 Caregiver"
+]
+
 choice = st.sidebar.selectbox("Menu", menu)
 
 # ---------- HOME ----------
 if choice == "🏠 Home":
     st.write("Welcome to Healthcare Monitoring System")
-    st.info("Track BP, BMI, get advice, chat & reminders")
+    st.info("Track BP, BMI, get advice, chatbot, reminders, and goals")
 
 # ---------- ADD PATIENT ----------
 elif choice == "➕ Add Patient":
@@ -141,16 +148,22 @@ elif choice == "📄 View Patient":
             "BMI": [patient["BMI"]]
         })
 
+        # Health Insights
+        st.subheader("Health Insights")
+
+        if patient["BMI"] > 25:
+            st.warning("Overweight - Exercise recommended")
+        elif patient["BMI"] < 18.5:
+            st.warning("Underweight - Improve diet")
+        else:
+            st.success("Healthy BMI")
+
         # Report
         if st.button("Generate Report"):
-            report = f"""
-🏥 Patient Report
-
-BP: {patient["Systolic"]}/{patient["Diastolic"]}
-BMI: {patient["BMI"]}
-Advice: {patient["Advice"]}
-"""
-            st.text(report)
+            st.subheader("Patient Report")
+            st.write("BP:", f"{patient['Systolic']}/{patient['Diastolic']}")
+            st.write("BMI:", patient["BMI"])
+            st.write("Advice:", patient["Advice"])
 
         # CSV Download
         df = pd.DataFrame(data).T
@@ -190,9 +203,38 @@ elif choice == "💊 Reminder":
 
     med = st.text_input("Medicine Name")
     time = st.time_input("Select Time")
+    taken = st.checkbox("Mark as Taken")
 
-    if st.button("Set Reminder"):
+    if st.button("Save Reminder"):
         st.success(f"Reminder set for {med} at {time}")
+        st.write("Status:", "✅ Taken" if taken else "❌ Not Taken")
+
+    # Adherence Tracking
+    st.subheader("Medication Adherence")
+
+    adherence = st.slider("Doses taken this week", 0, 7)
+
+    if adherence >= 5:
+        st.success("Good adherence 👍")
+    else:
+        st.warning("Improve consistency ⚠")
+
+# ---------- GOALS ----------
+elif choice == "🎯 Goals":
+    st.subheader("Health Goals")
+
+    goal = st.text_input("Enter your goal")
+    progress = st.slider("Progress (%)", 0, 100)
+
+    if st.button("Save Goal"):
+        st.success("Goal saved successfully!")
+
+    st.progress(progress / 100)
+
+    if progress < 50:
+        st.warning("Keep going 💪")
+    else:
+        st.success("Great progress 🎉")
 
 # ---------- HEALTH TIPS ----------
 elif choice == "💡 Health Tips":
@@ -203,3 +245,15 @@ elif choice == "💡 Health Tips":
     st.write("✔ Eat balanced diet")
     st.write("✔ Sleep 7–8 hours")
 
+# ---------- CAREGIVER ----------
+elif choice == "👨‍👩‍👧 Caregiver":
+    st.subheader("Caregiver Monitoring")
+
+    pid = st.text_input("Enter Patient ID")
+    data = load_data()
+
+    if st.button("Check Patient"):
+        if pid in data:
+            st.json(data[pid])
+        else:
+            st.error("Patient not found")
