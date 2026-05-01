@@ -121,7 +121,7 @@ New features added:
 - ## 📸 Week 5 Output
 
 ![Week 6 Screenshot](week6
-_output.png)
+-output.png)
 
 
 
