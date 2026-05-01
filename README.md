@@ -109,6 +109,15 @@ New features added:
 
 ![Week 5 Screenshot](week5_output.png)
 
+## 📅 Week 6 Update
+
+- Added medication adherence tracking system  
+- Implemented goal tracking with progress visualization  
+- Added health insights based on patient BMI  
+- Improved report generation feature  
+- Implemented caregiver monitoring system  
+- Enhanced overall user interface and functionality  
+
 
 
 
