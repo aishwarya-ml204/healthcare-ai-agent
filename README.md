@@ -118,10 +118,9 @@ New features added:
 - Implemented caregiver monitoring system  
 - Enhanced overall user interface and functionality  
 
-- ## 📸 Week 5 Output
+- ## 📸 Week 6 Output
 
-![Week 6 Screenshot](week6
--output.png)
+![Week 6 Screenshot](week6-output.png)
 
 
 
