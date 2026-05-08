@@ -122,5 +122,13 @@ New features added:
 
 ![Week 6 Screenshot](week6-output.png)
 
+## 📅 Week 7 Update
+
+- Added dashboard metrics
+- Implemented input validation
+- Improved report export system
+- Enhanced UI/UX design
+- Added better error handling
+
 
 
