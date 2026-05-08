@@ -1,3 +1,4 @@
+%%writefile app.py
 import streamlit as st
 import json
 import pandas as pd
@@ -72,6 +73,8 @@ def save_data(data):
 # ---------- UI ----------
 st.set_page_config(page_title="Healthcare AI", layout="centered")
 st.title("🏥 Healthcare Monitoring AI Agent")
+st.markdown("---")
+st.info("AI-powered Healthcare Monitoring System")
 st.markdown("### 💙 Your Smart Health Assistant")
 
 menu = [
@@ -84,11 +87,24 @@ menu = [
     "💡 Health Tips",
     "👨‍👩‍👧 Caregiver"
 ]
+st.sidebar.title("🏥 Navigation")
+st.sidebar.info("Select a feature from the menu")
 
 choice = st.sidebar.selectbox("Menu", menu)
 
 # ---------- HOME ----------
 if choice == "🏠 Home":
+    data = load_data()
+
+    total_patients = len(data)
+
+    st.subheader("📊 Dashboard")
+
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric("Total Patients", total_patients)
+    col2.metric("Health Tips", "24/7")
+    col3.metric("Reports Generated", total_patients)
     st.write("Welcome to Healthcare Monitoring System")
     st.info("Track BP, BMI, get advice, chatbot, reminders, and goals")
 
@@ -102,21 +118,30 @@ elif choice == "➕ Add Patient":
     bmi = st.number_input("BMI")
 
     if st.button("Submit"):
-        advice = health_advice(systolic, diastolic, bmi)
-        data = load_data()
 
-        data[pid] = {
+       if pid == "":
+         st.error("Patient ID cannot be empty")
+
+       elif systolic <= 0 or diastolic <= 0:
+         st.error("Invalid BP values")
+
+       elif bmi <= 0:
+         st.error("Invalid BMI")
+
+       else:
+         advice = health_advice(systolic, diastolic, bmi)
+         data = load_data()
+
+         data[pid] = {
             "Systolic": systolic,
             "Diastolic": diastolic,
             "BMI": bmi,
             "Advice": advice
         }
 
-        save_data(data)
+         save_data(data)
 
-        st.success("Data Saved!")
-        st.write("Advice:", advice)
-        st.write("Risk Level:", health_risk(systolic, diastolic, bmi))
+         st.success("Data Saved Successfully!")
 
 # ---------- VIEW PATIENT ----------
 elif choice == "📄 View Patient":
@@ -164,6 +189,20 @@ elif choice == "📄 View Patient":
             st.write("BP:", f"{patient['Systolic']}/{patient['Diastolic']}")
             st.write("BMI:", patient["BMI"])
             st.write("Advice:", patient["Advice"])
+            report_text = f"""
+            Patient Report
+            BP: {patient['Systolic']}/{patient['Diastolic']}
+            BMI: {patient['BMI']}
+            Advice: {patient['Advice']}
+            """
+
+            st.download_button(
+              label="Download Report",
+              data=report_text,
+              file_name="patient_report.txt",
+              mime="text/plain"
+    )
+
 
         # CSV Download
         df = pd.DataFrame(data).T
@@ -256,4 +295,6 @@ elif choice == "👨‍👩‍👧 Caregiver":
         if pid in data:
             st.json(data[pid])
         else:
-            st.error("Patient not found")
+           st.error("❌ Patient ID not found. Please check and try again.")
+st.markdown("---")
+st.caption("Healthcare Monitoring AI Agent | Week 7 Update")           
