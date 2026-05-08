@@ -130,5 +130,7 @@ New features added:
 - Enhanced UI/UX design
 - Added better error handling
 
+- ![Week 6 Screenshot](week_7_output.png)
+
 
 
