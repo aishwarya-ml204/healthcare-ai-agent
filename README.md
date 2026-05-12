@@ -139,6 +139,6 @@ New features added:
 - Performed testing and validation
 - Enhanced error handling
 - Optimized overall application performance
-
+![Week 8 Screenshot](week-8.png)
 
 
