@@ -132,5 +132,13 @@ New features added:
 
 - ![Week 6 Screenshot](week_7_output.png)
 
+- ## 📅 Week 8 Update
+
+- Finalized project deployment
+- Improved UI and dashboard design
+- Performed testing and validation
+- Enhanced error handling
+- Optimized overall application performance
+
 
 
