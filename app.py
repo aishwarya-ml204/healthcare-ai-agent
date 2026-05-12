@@ -107,7 +107,7 @@ if choice == "🏠 Home":
     col3.metric("Reports Generated", total_patients)
     st.write("Welcome to Healthcare Monitoring System")
     st.info("Track BP, BMI, get advice, chatbot, reminders, and goals")
-
+    st.info("Track patient health, monitor medication adherence, and generate reports efficiently.")
 # ---------- ADD PATIENT ----------
 elif choice == "➕ Add Patient":
     st.subheader("Add Patient Data")
@@ -247,7 +247,7 @@ elif choice == "💊 Reminder":
     if st.button("Save Reminder"):
         st.success(f"Reminder set for {med} at {time}")
         st.write("Status:", "✅ Taken" if taken else "❌ Not Taken")
-
+        st.warning(f"⏰ Reminder: Take {med} at {time}")
     # Adherence Tracking
     st.subheader("Medication Adherence")
 
@@ -297,4 +297,4 @@ elif choice == "👨‍👩‍👧 Caregiver":
         else:
            st.error("❌ Patient ID not found. Please check and try again.")
 st.markdown("---")
-st.caption("Healthcare Monitoring AI Agent | Week 7 Update")           
+st.caption("Healthcare Monitoring AI Agent | Week 8 Update")
